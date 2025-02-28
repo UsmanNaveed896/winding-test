@@ -236,9 +236,7 @@ export default function Car({ blok, url }) {
     
     const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString('en-CA')} ${blok.miles} | Winding Road Motorcars`;
  
-    console.log(url,"url")
-    console.log(pageTitle,"pageTitle")
-    console.log(mainImageUrl,"mainImageUrl")
+  
   return (
     <>
      <Head>
