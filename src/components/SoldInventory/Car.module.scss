@@ -1,0 +1,193 @@
+.car {
+    border-bottom: 1px solid #D0D0D0;
+    padding-bottom: 0.5em;
+    position: relative;
+    max-width: 100%;
+    min-width: 100%;
+
+    @media only screen and (min-width: 50rem) {
+        max-width: calc(50% - 1rem);
+        min-width: calc(50% - 1rem);    
+    }
+
+    &:hover {
+        .image img {
+            transform: scale(105%);
+        }
+
+        a {
+            color: var(--red);
+            border-bottom-color: var(--red);
+
+            &::after {
+                filter: brightness(1);
+            }
+        }
+    }
+
+    .image {
+        position: relative;
+        margin-bottom: 0.4em;
+        overflow: hidden;
+
+        img { transition: transform 0.3s; }
+
+        p {
+            position: absolute;
+            margin: 0;
+            top: 0;
+            right: 0;
+            background-color: var(--red);
+            color: #fff;
+            padding: 0.5rem 1.1rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            border-bottom-left-radius: 0.3rem;
+
+            span {
+                display: block;
+                font-size: 0.875rem;
+                font-weight: 700;
+                opacity: 0.7;
+                margin-top: -0.4em;
+                margin-bottom: -0.2em;
+            }
+        }
+    }
+
+    .excerpt {
+        display: none;
+    }
+    
+    .titleAndStocknumber,
+    .details,
+    .info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0 1.2em;
+    }
+
+    .titleAndStocknumber {
+        align-items: center;
+    }
+
+    .year::before,
+    .miles::before,
+    .fuelType::before,
+    .drive::before {
+        content: '';
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        transform: translateY(0.1em);
+        margin-right: 0.5em;
+        background-image: url('/icons/calendar-black.svg');
+        background-repeat: no-repeat;
+        background-size: 100%;
+    }
+
+    .miles::before { background-image: url('/icons/mileage-black.svg'); }
+
+    .fuelType::before { background-image: url('/icons/fire-black.svg'); }
+
+    .drive::before { background-image: url('/icons/wheel-black.svg'); }
+
+    p {
+        margin: 0.2em 0;
+    }
+
+    .titleAndStocknumber {
+        .title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .stockNumber {
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #383838;
+        }
+    }
+
+    a {
+        font-size: 0.875rem;
+        color: inherit;
+        font-weight: 600;
+        border-bottom: 1px solid #000;
+        padding-bottom: 0.2em;
+        text-decoration: none;
+        transition: all 0.2s;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        &::after {
+            content: '';
+            width: 0.8em;
+            height: 0.8em;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            display: inline-block;
+            margin-left: 0.5em;
+            filter: brightness(0);
+            transition: filter 0.2s;
+            background-image: url('data:image/svg+xml;utf8,<svg width="12" height="13" viewBox="0 0 12 13" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(%23clip0_3606_6471)"><path d="M0.666748 6.5L10.6667 6.5" stroke="%23ca0928" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 1.83325L10.6667 6.49992L6 11.1666" stroke="%23ca0928" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_3606_6471"><rect width="12" height="12" fill="black" transform="translate(0 0.5)"/></clipPath></defs></svg>');
+        }
+    }
+}
+
+@media only screen and (min-width: 62rem) {
+    .car:nth-of-type(3n) {
+        min-width: 100%;
+        max-width: 100%;
+        display: flex;
+        border-bottom: none;
+        padding-bottom: 0;
+
+        .image {
+            min-width: 25.7rem;
+            max-width: 25.7rem;
+            position: static;
+        }
+
+        .excerpt {
+            display: block;
+            font-size: 0.875rem;
+            max-width: 30rem;
+        }
+
+        .content {
+            width: 100%;
+            background-color: #f6f6f6;
+            padding: 0.7em 1.2em;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .titleAndStocknumber {
+            display: block;
+        }
+
+        .details {
+            :global(.sr-only) {
+                all: revert;
+                display: block;
+                font-size: 0.65rem;
+                text-transform: uppercase;
+            }
+
+            p::before {
+                display: none;
+            }
+        }
+    }
+}

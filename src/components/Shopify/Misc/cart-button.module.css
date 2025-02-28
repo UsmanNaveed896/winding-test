@@ -1,0 +1,25 @@
+.cartButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  align-self: center;
+  color: #fff;
+  transition: color 0.2s;
+}
+
+.cartButton:hover {
+  color: var(--red);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 3px;
+  right: 1.7em;
+  height: 16px;
+  min-width: 16px;
+  border: unset;
+}

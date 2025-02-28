@@ -1,0 +1,75 @@
+.text {
+    padding-bottom: 1em;
+}
+
+@media only screen and (min-width: 80rem) {
+    .flex {
+        display: flex;
+        gap: 2em;
+
+        .image {
+            img {
+                border-radius: 0.3em;
+            }
+        }
+
+        .faq {
+            min-width: 40rem;
+            max-width: 40rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 80rem) {
+    .image {
+        display: none;
+    }
+}
+
+.faq {
+    details {
+        padding: 0.5em 2em 0.5em 0;
+        border-bottom: 1px solid rgba(23, 35, 68, 0.2);
+
+        &:first-of-type {
+            border-top: 1px solid rgba(23, 35, 68, 0.2);
+        }
+
+        div {
+            margin-top: -1em;
+        }
+    }
+
+    summary {
+        position: relative;
+        font-size: 1.25rem;
+        cursor: pointer;
+        color: var(--heading);
+        font-weight: 600;
+        padding: 1em 0;
+        list-style: none;
+
+        &::marker {
+            content: none;
+        }
+
+        &::-webkit-details-marker {
+            display: none;
+        }
+
+        &::after {
+            content: '+';
+            position: absolute;
+            top: 50%;
+            right: -1em;
+            transform: translateY(-50%);
+            font-size: 2.3rem;
+            font-weight: 400 !important;
+            transition: transform 0.2s;
+        }
+    }
+
+    details[open] summary::after {
+        transform: translateY(-50%) rotate(45deg);
+    }
+}

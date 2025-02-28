@@ -1,0 +1,94 @@
+.section {
+    background-color: #fff;
+    padding: 5.5em 0;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2em;
+
+    button {
+        padding: 0.85rem;
+        min-width: 11rem;
+        background-color: #F0F0F0;
+        font-size: 0.9375rem;
+        font-family: 'Archivo';
+        text-transform: uppercase;
+        color: #666666;
+        font-weight: 600;
+        transition: all 0.2s;
+
+        &:first-of-type {
+            border-radius: 0.25rem 0rem 0rem 0.25rem; 
+        }
+
+        &:last-of-type {
+            border-radius: 0rem 0.25rem 0.25rem 0rem; 
+        }
+
+        &:not(:first-of-type) {
+            border-left: 1px solid #666666;
+        }
+
+        &.active {
+            background-color: var(--red);
+            color: #fff;
+            border-left: unset;
+        }
+
+        &.active + button {
+            border-left: unset;
+        }
+    }
+
+    @media only screen and (max-width: 65rem) {
+        gap: 0.5em;
+
+        button {
+            border-radius: 0.25rem !important;
+            border: unset !important;
+
+            @media only screen and (max-width: 40rem) {
+                min-width: unset;
+            }
+        }
+    }
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.showMore {
+    margin-top: 3.2rem;
+    text-align: center;
+    position: relative;
+
+    &::after {
+        content: '';
+        width: 100%;
+        height: 1px;
+        background-color: #D0D0D0;
+        position: absolute;
+        top: 0.65em;
+        left: 0;
+    }
+
+    p {
+        color: #969696;
+        font-size: 0.9rem;
+        padding: 0 2em;
+        background-color: #fff;
+        z-index: 2;
+        position: relative;
+        max-width: max-content;
+        margin: 0 auto;
+    }
+
+    :global(.button) {
+        margin: 2em auto 0 auto;
+    }
+}

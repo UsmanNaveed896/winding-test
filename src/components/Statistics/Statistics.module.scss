@@ -1,0 +1,127 @@
+.defaultStyle {
+    h2 {
+        font-size: 2.5rem;
+        font-weight: 500;
+        margin-bottom: 1.75rem;
+    }
+
+    .statistics {
+        display: flex;
+        gap: 2.25em;
+    }
+    
+    .item {
+        border-top: 1px solid #D0D0D0;
+        padding-top: 1em;
+        flex: 1;
+    }
+
+    @media only screen and (max-width: 75rem) {
+        .statistics {
+            display: block;
+        }
+
+        .item {
+            display: flex;
+            gap: 2em;
+            padding-top: 0;
+            margin-bottom: 1em;
+
+            & > h3 {
+                max-width: 13rem;
+                min-width: 13rem;
+                margin-top: 1rem;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 55rem) {
+        .item {
+            display: block;
+            margin-bottom: 2.5em;
+        }
+    }
+}
+
+.style2 {
+    display: flex;
+    gap: 3em;
+
+    .title {
+        flex: 1;
+    }
+
+    .statistics {
+        flex: 2.1;
+    }
+
+    .item {
+        display: flex;
+        gap: 1em;
+        padding-top: 0.5rem;
+        border-top: 1px solid #666666;
+        margin-bottom: 0.8rem;
+
+        h3 {
+            flex: 2;
+            font-size: 0.9rem;
+            margin-top: 1.25rem;
+            text-transform: uppercase;
+        }
+
+        & > div {
+            flex: 3;
+        }
+    }
+
+    @media only screen and (max-width: 65rem) {
+        display: block;
+    }
+
+    @media only screen and (max-width: 40rem) {
+        .item {
+            display: block;
+        }
+    }
+}
+
+.style3 {
+    display: flex;
+    gap: 3em;
+
+    .title {
+        flex: 1;
+    }
+
+    b {
+        color: #fff;
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+
+    .statistics {
+        flex: 2.1;
+        display: flex;
+        gap: 0 2em;
+        flex-wrap: wrap;
+    }
+
+    .item {
+        padding-top: 1.5rem;
+        border-top: 1px solid #666666;
+        margin-bottom: 0.8rem;
+        min-width: calc(50% - 1em);
+        max-width: calc(50% - 1em);
+    }
+
+    @media only screen and (max-width: 65rem) {
+        display: block;
+    }
+
+    @media only screen and (max-width: 45rem) {
+        .item {
+            min-width: 100%;
+            max-width: 100%;
+        }
+    }
+}

@@ -1,0 +1,165 @@
+.section {
+  background-color: #fff;
+  color: #000;
+  padding: 3em 0 7em 0;
+
+  h1, h2, h3 {
+    color: #000;
+  }
+}
+
+.wrapper {
+  width: 65rem;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5em;
+  text-align: left;
+}
+
+.table {
+  flex: 1;
+  margin: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 48px 1fr min-content;
+  gap: 0.5em;
+
+  @media only screen and (max-width: 35rem) {
+    thead {
+      display: none !important;
+    }
+  }
+}
+
+.table th {
+  text-align: left;
+  text-transform: uppercase;
+  
+}
+
+.table tr,
+.table thead,
+.table tbody {
+  display: contents;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 0 auto;
+  padding: 2em 0;
+}
+
+.totals,
+.table th.totals {
+  text-align: right;
+}
+
+.checkoutButton {
+  display: inline-block;
+  max-width: max-content;
+  margin: 2em 0 0 auto !important;
+}
+
+.summary ~ .summary td {
+  padding-top: 0;
+}
+
+.summary .labelColumn {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.summary .totals {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+
+.grandTotal .labelColumn {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.collapseColumn {
+  display: none;
+}
+
+.productHeader {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.imageHeader {
+  position: fixed;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.emptyStateContainer {
+  text-align: center;
+  max-width: 48ch;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.emptyStateLink {
+  display: inline-block;
+}
+
+@media (min-width: 640px) {
+  .summary .labelColumn,
+  .summary .totals,
+  .grandTotal .labelColumn {
+    grid-column-start: auto;
+    grid-column-end: auto;
+  }
+
+  .collapseColumn {
+    display: block;
+  }
+
+  .table {
+    grid-template-columns: 80px 1fr repeat(3, min-content);
+  }
+}
+
+@media (min-width: 1024px) {
+  .table {
+    grid-template-columns: max-content 1fr repeat(3, max-content);
+  }
+}
+
+@media (max-width: 640px) {
+  .quantity {
+    opacity: 0;
+  }
+  .productHeader {
+    opacity: 0;
+  }
+  .title {
+    margin-bottom: 0em;
+  }
+  .table {
+    display: block;
+
+    tbody {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+
+      tr {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

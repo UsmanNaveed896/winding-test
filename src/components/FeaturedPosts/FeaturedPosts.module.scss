@@ -1,0 +1,96 @@
+.title {
+    display: flex;
+    gap: min(2.5rem, 4vw);
+    align-items: center;
+    margin-bottom: 1.3em;
+
+    h1 {
+        font-size: 2.875rem;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 1.5em;
+    }
+
+    h2 {
+        max-width: max-content;
+    }
+
+    a {
+        font-weight: 400;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+        text-decoration: none;
+
+        &::before {
+            content: "";
+            width: 0.4em;
+            height: 0.7em;
+            background-image: url("/icons/arrow-right-red.svg");
+            display: inline-block;
+            background-repeat: no-repeat;
+            background-size: contain;
+            margin-right: 0.7em;
+            transition: transform 0.2s;
+        }
+
+        &:hover {
+            &::before {
+                transform: translateX(0.2em);
+            }
+        }
+    }
+}
+
+.wrapper {
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+}
+
+.slider {
+    overflow: hidden;
+    position: relative;
+}
+
+.sliderWrapper {
+    display: flex;
+    cursor: grab;
+}
+
+.titleAndArrows {
+    display: flex;
+    justify-content: space-between;
+    gap: 2em;
+    align-items: center;
+
+    @media only screen and (max-width: 60rem) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        margin-bottom: 2em;
+    }
+
+    div {
+        display: flex;
+        gap: 1.5em;
+    }
+
+    button {
+        width: 1.5rem;
+        height: 1.5rem;
+        background-image: url('/icons/arrow-right.svg');
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.5;
+        }
+
+        &:first-of-type {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.textBelow {
+    margin-top: 1.5em;
+}

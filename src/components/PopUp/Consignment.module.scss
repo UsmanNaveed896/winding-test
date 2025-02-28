@@ -1,0 +1,243 @@
+.header {
+    display: flex;
+    padding: 1.75em 4%;
+    gap: 1em;
+    justify-content: space-between;
+
+    .tel {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        color: inherit;
+    }
+
+    .logo {
+        filter: brightness(0);
+
+        @media only screen and (max-width: 35rem) {
+            display: none;
+        }
+    }
+
+    .progressBar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.85em;
+    }
+
+    .bar {
+        width: 30rem;
+        height: 4px;
+        border-radius: 8px;
+        background-color: #f0f0f0;
+        position: relative;
+
+        span {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: var(--red);
+            border-radius: 8px;
+            transition: width 0.5s;
+        }
+
+        @media only screen and (max-width: 65rem) {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+}
+
+.content {
+    min-height: calc(100vh - 8rem);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.form {
+    width: 100%;
+
+    h3, p, label, input {
+        max-width: 32rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    p {
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-bottom: 1.85em;
+    }
+
+    input:not(:global(.button)),
+    select,
+    .file > span {
+        padding: 0.62rem 0.75rem;
+        font-size: 1rem;
+        border-radius: 0.25rem; 
+        border: 1px solid #AAAAAA;
+        margin: 0.45em 0 1.25em 0;
+        width: 100%;
+        background-color: transparent;
+        color: #252525;
+        display: block;
+        background-color: #fff;
+    }
+
+    :global(.button) {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        outline: none;
+    }
+
+    label {
+        position: relative;
+        display: block;
+
+        span {
+            font-weight: 500;
+        }
+    }
+}
+
+.files {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+.file {
+    width: min(100%, 18.5rem);
+    display: inline-block;
+    margin: 0 !important;
+
+    input {
+        opacity: 0;
+        width: 0.1px;
+        height: 0.1px;
+        position: absolute;
+    }
+    & > span {
+        color: #383838;
+        cursor: pointer;
+        text-align: center;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        padding-top: 0.85em !important;
+        padding-bottom: 0.85em !important;
+        margin: 0 !important;
+
+        & > span {
+            position: relative;
+            padding-right: 1.35em;
+            display: block;
+            max-width: max-content;
+
+            svg {
+                position: absolute;
+                top: 0.05em;
+                right: 0;
+            }
+        }
+    }
+}
+
+.step {
+    p, h3 {
+        text-align: center;
+    }
+}
+
+.backAndNext {
+    display: flex;
+    gap: 0.75em;
+    max-width: 32rem;
+    margin: 2em auto 0 auto;
+    width: 100%;
+
+    @media only screen and (max-width: 89rem) {
+        flex-wrap: wrap;
+    }
+
+    .back {
+        background-color: #fff;
+        color: #000;
+        border: 1px solid #000;
+    }
+
+    :global(.button) {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        outline: none;
+    }
+}
+
+.finalScreen {
+    height: 100vh;
+    display: flex;
+    margin-top: -5.8rem;
+    align-items: center;
+
+    .text {
+        flex: 1;
+        margin: 0 4%;
+
+        :global(.button) {
+            margin: 0 !important;
+        }
+
+        p {
+            max-width: 25rem;
+        }
+    }
+
+    .image {
+        flex: 1.2;
+        height: 100%;
+        position: relative;
+        width: 100%;
+
+        img {
+            border-radius: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+
+    @media only screen and (max-width: 52rem) {
+        flex-direction: column;
+        margin-top: 2em;
+        height: auto;
+        gap: 3rem;
+
+        .text {
+            min-height: 35vh;
+            text-align: center;
+
+            :global(.button) {
+                margin: 0 auto !important;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+
+        .image {
+            min-height: 46vh;
+        }
+    }
+}

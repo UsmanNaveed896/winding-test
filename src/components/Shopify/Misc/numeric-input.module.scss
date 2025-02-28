@@ -1,0 +1,27 @@
+.wrap {
+  display: flex;
+  border: 1px solid #d0d0d0;
+  margin-right: 1em;
+  max-width: max-content;
+  border-radius: 0.35em;
+
+  input {
+    width: 4.5em;
+  }
+
+  input, button {
+    padding: 0.65em 1em;
+    text-align: center;
+    background-color: transparent;
+    border: unset;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(0,0,0, 0.07);
+    }
+  }
+
+  button {
+    font-weight: 600;
+  }
+}

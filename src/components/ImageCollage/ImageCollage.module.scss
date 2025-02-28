@@ -1,0 +1,91 @@
+.section {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .mobileImages { display: none; }
+
+    &::before,
+    &::after {
+        content: '';
+        width: 100%;
+        height: 10em;
+        position: absolute;
+        top: 4rem;
+        left: 0;
+        background: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.00) 100%); 
+        z-index: 2;
+    }
+
+    &::after {
+        top: unset;
+        bottom: 4rem;
+        transform: rotate(180deg);
+    }
+
+    & > div {
+        max-width: calc(33% - 0.5em);
+        min-width: calc(33% - 0.5em);
+        display: flex;
+        gap: 1em;
+        flex-direction: column;
+
+        & > div {
+            overflow: hidden;
+            background-color: #242424;
+            padding: 2em 1em 0.75em 1em;
+            text-align: center;
+
+            h2 {
+                max-width: calc(100% + 2em);
+                min-width: calc(100% + 2em);
+                font-size: clamp(2rem, 4.7vw, 3.75rem);
+                margin: 0;
+                margin-left: -1em;
+                padding: 0;
+                background: linear-gradient(to bottom, var(--dark-red) calc(clamp(2rem, 4.7vw, 4rem) * 1), var(--red) calc(clamp(2rem, 4.7vw, 4rem) * 1), var(--red) calc(clamp(2.5rem, 8vw, 5rem) * 2), var(--orange) calc(clamp(2.5rem, 8vw, 5rem) * 2), var(--yellow) calc(clamp(2.5rem, 8vw, 5rem) * 3), var(--yellow) calc(clamp(2.5rem, 8vw, 5rem) * 3));
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 55rem) {
+    .section {
+        flex-direction: column;
+
+        &::after,
+        &::before {
+            content: none;
+            display: none;
+        }
+
+        h2 {
+            padding-left: 2em !important;
+            padding-right: 2em !important;
+        }
+
+        img {
+            display: none;
+        }
+
+        & > div {
+            max-width: 100%;
+            min-width: 100%;
+        }
+
+        .mobileImages {
+            display: flex;
+            padding: 0.5em;
+            flex-wrap: wrap;
+            background-color: #242424;
+            flex-direction: row;
+            justify-content: space-evenly;
+
+            img {
+                display: block;
+                max-width: 29%;
+                min-width: 29%;
+            }
+        }
+    }
+}

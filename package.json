@@ -1,0 +1,40 @@
+{
+  "name": "winding-road",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next-sitemap && next export",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@formspree/react": "^2.4.1",
+    "@google-cloud/storage": "^7.11.2",
+    "@storyblok/react": "^2.0.17",
+    "axios": "^1.7.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "embla-carousel-react": "^7.1.0",
+    "eslint": "8.39.0",
+    "eslint-config-next": "13.3.1",
+    "express": "^4.19.2",
+    "isomorphic-fetch": "^3.0.0",
+    "lodash.debounce": "^4.0.8",
+    "lodash.isequal": "^4.5.0",
+    "mime": "^4.0.3",
+    "multer": "^1.4.5-lts.1",
+    "net": "^1.0.2",
+    "next": "13.3.1",
+    "next-sitemap": "^4.0.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "sass": "^1.62.0",
+    "shopify-buy": "^2.19.0",
+    "storyblok-rich-text-react-renderer": "^2.7.5"
+  },
+  "devDependencies": {
+    "@types/node": "18.16.0",
+    "@types/react": "18.2.0"
+  }
+}

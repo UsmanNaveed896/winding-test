@@ -1,0 +1,7 @@
+.addToCart {
+  &[disabled] {
+    background-color: #DDDDDD;
+    color: #1a1a1a;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,153 @@
+.notification {
+    font-size: 0.75em;
+    padding: 0.5rem 2.25rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    color: #fff;
+    background-color: #429a9b;
+
+    a {
+        color: inherit;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    .leftText {
+        a {
+            text-decoration: underline;
+        }
+    }
+
+    .rightText {
+        display: flex;
+        gap: 4em;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2.25rem;
+    z-index: 10;
+    position: relative;
+
+    :global(.button) {
+        margin: 0;
+        padding: 0.7em 2em;
+    }
+}
+
+.menuAndLogo {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.nav ul {
+    display: flex;
+    list-style: none;
+    gap: 3em;
+    font-weight: 500;
+
+    li {
+        font-size: 0.9375rem;
+    }
+    
+    a {
+        color: var(--paragraph);
+        text-decoration: none;
+        transition: color 0.2s;
+        &:hover { color: var(--red); }
+    }
+}
+
+.cartAndCta {
+    display: flex;
+    gap: 1em;
+
+    @media only screen and (max-width: 25rem) {
+        gap: 0.5em;
+    }
+}
+
+.menuButton {
+    display: none;
+
+    rect { transition: transform 0.2s; }
+}
+
+.menuIsOpen .menuButton {
+    svg {
+        rect:first-of-type {
+            transform: rotate(45deg) translate(0.6em, -1em);
+            display: block;
+        }
+        rect {
+            display: none;
+        }
+        rect:last-of-type {
+            transform: rotate(-45deg) translate(-2.5em, -0.5em);
+            display: block;
+        }
+    }
+}
+
+@media only screen and (max-width: 71rem) {
+    .header {
+        padding: 1em 4%;
+
+        img {
+            max-width: 32vw;
+        }
+
+        :global(.button) {
+            padding: 0.7em 1.7em;
+        }
+    }
+
+    .notification {
+        padding: 0.5em 4%;
+        
+        .rightText {
+            display: none;
+        }
+    }
+
+    .menuButton {
+        display: block;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    .menuIsOpen .nav {
+        display: block;
+        position: absolute;
+        top: 4.1em;
+        left: 0;
+        padding: 5%;
+        background-color: #000;
+        width: 100%;
+        min-height: calc(100vh - 4.1em);
+        max-height: calc(100vh - 4.1em);
+        overflow: auto;
+
+        ul {
+            display: block;
+        }
+
+        li {
+            font-size: 1.55rem;
+            margin: 0.7em 0;
+        }
+
+        a {
+            color: #fff;
+        }
+    }
+}

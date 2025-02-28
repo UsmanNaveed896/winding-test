@@ -1,0 +1,32 @@
+.section {
+    overflow: hidden;
+}
+
+.logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+
+    div {
+        min-width: 10rem;
+        max-width: 10rem;
+    }
+}
+
+.mobileLogo {
+    display: none;
+}
+
+@media only screen and (max-width: 68rem) {
+    .mobileLogo {
+        display: block;
+    }
+
+    .logos {
+        div {
+            min-width: 8rem;
+            max-width: 8rem;
+        }
+    }
+}

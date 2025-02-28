@@ -1,0 +1,25 @@
+.section {
+    display: flex;
+    max-width: 100% !important;
+    margin: 3.25em 0;
+    gap: 1em;
+
+    & > div {
+        flex: 1;
+        position: relative;
+    }
+
+    img {
+        object-fit: cover;
+        height: 100%;
+        border-radius: 0.25rem;
+    }
+
+    .larger {
+        flex: 1.75;
+    }
+
+    @media only screen and (max-width: 40rem) {
+        flex-direction: column;
+    }
+}

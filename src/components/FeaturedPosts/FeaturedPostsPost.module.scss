@@ -1,0 +1,109 @@
+.article {
+    max-width: calc(33.3% - 1.5em);
+    min-width: calc(33.3% - 1.5em);
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background-color: #161616;
+
+    &.isSlider {
+        min-width: min(25rem, 83vw);
+        max-width: min(25rem, 83vw);
+        margin-right: min(2rem, 4vw);
+    }
+
+    @media only screen and (max-width: 62rem) {
+        max-width: calc(50% - 1.5em);
+        min-width: calc(50% - 1.5em);
+    }
+
+    @media only screen and (max-width: 40rem) {
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    .text {
+        background-color: #161616;
+        padding: 1.25rem 1rem;
+    }
+
+    .thumbnail {
+        width: 100%;
+        height: 0;
+        padding-top: 75%;
+        position: relative;
+        overflow: hidden;
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.2s;
+            object-fit: cover;
+        }
+    }
+
+    .details {
+        display: flex;
+        gap: 0.5em 1.25em;
+        margin: 0.25em 0 0.75em 0;
+
+        span {
+            display: flex;
+            gap: 0.35em;
+            align-items: center;
+        }
+    }
+
+    strong {
+        font-size: 1.125rem;
+        font-weight: 500;
+        display: block;
+        margin: 0.85em 0 0.4em 0;
+        line-height: 140%;
+        
+        a {
+            color: #fff;
+            transition: color 0.2s;
+            text-decoration: none;
+
+            &::after {
+                content: '';
+                z-index: 1;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    &:hover {
+        img { transform: scale(105%); }
+        a { color: var(--red) !important; }
+    }
+}
+
+// White Style
+.article.white {
+    background-color: #f0f0f0;
+
+    .text {
+        background-color: #f0f0f0;
+    }
+
+    a {
+        color: #000;
+    }
+
+    .details {
+        color: #383838;
+
+        img {
+            filter: brightness(30%);
+        }
+    }
+}

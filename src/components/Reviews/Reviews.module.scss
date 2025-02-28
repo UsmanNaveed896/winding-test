@@ -1,0 +1,101 @@
+.wrapper {
+    display: flex;
+    gap: 3em;
+    align-items: center;
+
+    @media only screen and (max-width: 40rem) {
+        display: block;
+    }
+}
+
+.titleAndArrows {
+    flex: 1;
+
+    @media only screen and (max-width: 40rem) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        margin-bottom: 2em;
+    }
+
+    div {
+        display: flex;
+        gap: 1.5em;
+        margin-top: 1.5em;
+    }
+
+    h2 {
+        margin: 0;
+    }
+
+    button {
+        width: 1.5rem;
+        height: 1.5rem;
+        background-image: url('/icons/arrow-right.svg');
+        transition: opacity 0.2s;
+
+        &:hover {
+            opacity: 0.5;
+        }
+
+        &:first-of-type {
+            transform: rotate(180deg);
+        }
+    }
+}
+
+.slider {
+    flex: 5;
+    overflow: hidden;
+    position: relative;
+}
+
+.sliderWrapper {
+    display: flex;
+    cursor: grab;
+}
+
+.slide {
+    max-width: calc(40% - 2em);
+    min-width: calc(40% - 2em);
+    margin-right: 1.2em;
+    position: relative;
+    padding-bottom: 0.75em;
+    margin-bottom: 1px;
+    background-color: #242424;
+    border-radius: 0.5em;
+    user-select: none;
+    pointer-events: none;
+
+    @media only screen and (max-width: 80rem) {
+        max-width: 60%;
+        min-width: 60%;
+    }
+
+    @media only screen and (max-width: 65rem) {
+        max-width: 90%;
+        min-width: 90%;
+    }
+
+    img {
+        border-radius: 0.5em;
+    }
+
+    .reviewText {
+        margin: 1.5em;
+    }
+
+    .imageAndName {
+        display: flex;
+        gap: 1.5em;
+        align-items: center;
+        margin: -0.5em 1.5em 0.5em 1.5em;
+
+        img {
+            border-radius: 100%;
+            width: 2.5rem;
+            height: 2.5rem;
+            object-fit: cover;
+        }
+    }
+}
