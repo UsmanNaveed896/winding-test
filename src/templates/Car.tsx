@@ -71,12 +71,12 @@ export default function PageTemplate({ data, header, footer, cars, soldCars, con
                 url={data.full_slug}
             />
 
-            <Seo
+            {/* <Seo
                 title={content?.title}
                 description={content?.description}
                 url={data.full_slug}
                 noindex={content?.noindex}
-            />
+            /> */}
 
             <main className={CSS.wrapper} id="content" {...storyblokEditable(data)}>
                 <Car blok={content} url={data.full_slug} />

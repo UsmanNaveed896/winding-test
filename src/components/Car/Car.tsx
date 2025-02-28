@@ -245,8 +245,6 @@ export default function Car({ blok, url }) {
        
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
-        
-     
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:image" content={mainImageUrl} />
