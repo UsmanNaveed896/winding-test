@@ -229,13 +229,16 @@ export default function Car({ blok, url }) {
   
     
     const mainImageUrl = exteriorImages && exteriorImages.length > 0 
-      ? exteriorImages[0].filename 
-      : "/images/winding-road-16-10.png";
+      && exteriorImages[0].filename 
+     
     
     
     
     const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString('en-CA')} ${blok.miles} | Winding Road Motorcars`;
  
+    console.log(url,"url")
+    console.log(pageTitle,"pageTitle")
+    console.log(mainImageUrl,"mainImageUrl")
   return (
     <>
      <Head>
@@ -247,7 +250,7 @@ export default function Car({ blok, url }) {
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:image" content={mainImageUrl} />
-        <meta property="og:url" content={`https://windingroad.ca/${url}`} />
+        <meta property="og:url" content={`https://windingroad.ca/${url}/`} />
         <meta property="og:type" content="website" />
         
        
