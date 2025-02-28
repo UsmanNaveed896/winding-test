@@ -34,8 +34,8 @@ export default function Seo( data: {
 
             <meta property="og:type" content="website" />
 
-            <meta property="og:image" content={data?.image ? data.image + '/m/1200x0/filters:quality(80)' : "/images/winding-road-thumbnail.jpg"} />
-            <meta property="twitter:image" content={data?.image ? data.image + '/m/1200x0/filters:quality(80)' : "/images/winding-road-thumbnail.jpg"} />
+            {/* <meta property="og:image" content={data?.image ? data.image + '/m/1200x0/filters:quality(80)' : "/images/winding-road-thumbnail.jpg"} />
+            <meta property="twitter:image" content={data?.image ? data.image + '/m/1200x0/filters:quality(80)' : "/images/winding-road-thumbnail.jpg"} /> */}
 
             <meta name="description" content={description} />
             <meta property="og:description" content={description} />
