@@ -12,6 +12,14 @@ import Header from 'components/Layout/Header/Header'
 import Footer from 'components/Layout/Footer/Footer'
 import Car from 'components/Car/Car'
 
+// Fetch data from Storyblok
+const fetchDataFromStoryblok = async (full_slug) => {
+    const url = `https://api-us.storyblok.com/v2/cdn/stories/${full_slug}?version=draft&token=${process.env.NEXT_STORYBLOK_ACCESS_TOKEN}&cv=${Date.now()}`;
+    
+    const response = await fetch(url);
+    const json = await response.json();
+    return json.story;
+}
 
 export default function PageTemplate({ data, header, footer, cars, soldCars, contentAfterInventory }: {
     data: any,
@@ -22,48 +30,9 @@ export default function PageTemplate({ data, header, footer, cars, soldCars, con
     children?: JSX.Element | JSX.Element[],
     contentAfterInventory: any,
 }) {
+    // Because we're using server-side rendering, we don't need the preview state or useEffect anymore
+    const content = data.content;
 
-    // Template data live previews
-    const [preview, setPreview] = useState(null);
-
-    // Page data live previews
-    useEffect(() => {
-        if (window.location.search.includes('_storyblok') && data.full_slug !== '404') {
-            const url = `https://api-us.storyblok.com/v2/cdn/stories/${data.full_slug}?version=draft&token=${process.env.NEXT_STORYBLOK_ACCESS_TOKEN}&cv=${Date.now()}`;
-
-            const fetchData = async () => {
-                try {
-                    const response = await fetch(url);
-                    const json = await response.json();
-                    setPreview(json.story);
-                } catch (error) {
-                    console.log("error", error);
-                }
-            };
-
-            fetchData();
-
-            // Let's wait until the Storyblok script has loaded
-            const waitForStoryblokToLoad = function () {
-                if (!window.StoryblokBridge) {
-                  setTimeout(waitForStoryblokToLoad, 100)
-                } else {
-                    const { StoryblokBridge } = window
-                    const storyblokInstance = new StoryblokBridge()
-    
-                    // Update live preview when Storyblok story changes
-                    storyblokInstance.on('input', (event) => {
-                        setPreview(event.story);
-                    })
-                }
-            }
-
-            waitForStoryblokToLoad();
-        }
-    }, []);
-
-    const content = preview?.content ? preview.content : data.content;
-    
     return (
         <>
             <Header
@@ -71,12 +40,12 @@ export default function PageTemplate({ data, header, footer, cars, soldCars, con
                 url={data.full_slug}
             />
 
-            {/* <Seo
+            <Seo
                 title={content?.title}
                 description={content?.description}
                 url={data.full_slug}
                 noindex={content?.noindex}
-            /> */}
+            />
 
             <main className={CSS.wrapper} id="content" {...storyblokEditable(data)}>
                 <Car blok={content} url={data.full_slug} />
@@ -94,4 +63,35 @@ export default function PageTemplate({ data, header, footer, cars, soldCars, con
             <Footer data={footer} />
         </>
     )
+}
+
+// Server-side rendering function
+export async function getServerSideProps(context) {
+    const { full_slug } = context.params; // Get full_slug from URL
+
+    try {
+        const data = await fetchDataFromStoryblok(full_slug); // Fetch page data
+        const header = await fetchDataFromStoryblok('header'); // Example for header data
+        const footer = await fetchDataFromStoryblok('footer'); // Example for footer data
+        
+        const cars = []; // Fetch cars data if needed
+        const soldCars = []; // Fetch sold cars data if needed
+        const contentAfterInventory = []; // Fetch additional content if needed
+
+        return {
+            props: {
+                data,
+                header,
+                footer,
+                cars,
+                soldCars,
+                contentAfterInventory,
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching data: ", error);
+        return {
+            notFound: true, // Optional: return 404 if data fetching fails
+        }
+    }
 }
