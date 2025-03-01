@@ -17,7 +17,8 @@ export default function Car({ data }: {
             <div className={CSS.image}>
                 <Image img={data.image} heightRatio={0.6} />
                 {!data.image &&
-                    <img src="/images/winding-road-16-10.png" loading="lazy" alt="" width="840" height="504" />
+                <></>
+                    // <img src="/images/winding-road-16-10.png" loading="lazy" alt="" width="840" height="504" />
                 }
                 <p>
                     ${Number(data.price).toLocaleString('en-CA').replaceAll(',', ' ')}

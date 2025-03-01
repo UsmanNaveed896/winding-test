@@ -342,7 +342,7 @@ const proxyImageUrl = `https://windingroad.ca/api/image/${imagePath}`;
                     ))}
                   {(activeImages?.length === 0 || !activeImages) && (
                     <img
-                      src="/images/winding-road-16-10.png"
+                      // src="/images/winding-road-16-10.png"
                       loading="lazy"
                       alt=""
                       width="840"

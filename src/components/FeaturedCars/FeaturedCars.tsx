@@ -67,7 +67,8 @@ export default function Slider({ blok, cars, url }: {
                                 <div className={CSS.image}>
                                     <Image img={loop.image} heightRatio={0.6} />
                                     {!loop.image &&
-                                        <img src="/images/winding-road-16-10.png" loading="lazy" alt="" width="840" height="504" />
+                                    <></>
+                                        // <img src="/images/winding-road-16-10.png" loading="lazy" alt="" width="840" height="504" />
                                     }
                                 </div>
                                 <div className={CSS.nameAndPrice}>
