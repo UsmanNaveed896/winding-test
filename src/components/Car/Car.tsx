@@ -11,23 +11,16 @@ import CSS from "./Car.module.scss";
 
 export default function Car({ blok, url }) {
   const [activeImages, setActiveImages] = useState([]);
-  const [exteriorImages, setExteriorImages] = useState(
-    blok.exteriorImages || []
-  );
-  const [interiorImages, setInteriorImages] = useState(
-    blok.interiorImages || []
-  );
-  const [mechanicalImages, setMechanicalImages] = useState(
-    blok.mechanicalImages || []
-  );
-  const [documentImages, setDocumentImages] = useState(
-    blok.documentImages || []
-  );
+  const [exteriorImages, setExteriorImages] = useState(blok.exteriorImages || []);
+  const [interiorImages, setInteriorImages] = useState(blok.interiorImages || []);
+  const [mechanicalImages, setMechanicalImages] = useState(blok.mechanicalImages || []);
+  const [documentImages, setDocumentImages] = useState(blok.documentImages || []);
   const [activeTab, setActiveTab] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [btcToUsdRate, setBtcToUsdRate] = useState(null);
   const [cadToUsdRate, setCadToUsdRate] = useState(0.75);
+  const [mainImageUrl, setMainImageUrl] = useState('');
 
   const carouselOptions = {
     align: "start",
@@ -36,7 +29,7 @@ export default function Car({ blok, url }) {
     skipSnaps: false,
     dragFree: false,
   };
-  //@ts-ignore
+//@ts-ignore
   const [viewportRef, embla] = useEmblaCarousel(carouselOptions);
   //@ts-ignore
   const [viewportRef2, embla2] = useEmblaCarousel(carouselOptions);
@@ -72,7 +65,7 @@ export default function Car({ blok, url }) {
       embla2.scrollTo(index);
     }
   }, [embla, embla2]);
-  //@ts-ignore
+//@ts-ignore
   useEffect(() => {
     if (!embla) return;
     embla.on("select", onSelect);
@@ -90,37 +83,69 @@ export default function Car({ blok, url }) {
     [embla, embla2]
   );
 
-  function getExteriorImages() {
+  const fetchMainImageUrl = () => {
+    const url = exteriorImages && exteriorImages.length > 0
+      ? exteriorImages[0].filename
+      : "/images/winding-road-16-10.png";
+
+    setMainImageUrl(url);
+    setIsLoading(false); // Set loading to false when image URL is fetched
+  };
+
+  useEffect(() => {
+    fetchMainImageUrl(); // Populate main image URL immediately if available
+  }, [exteriorImages]);
+
+  useEffect(() => {
+    switch (activeTab) {
+      case 0:
+        setActiveImages(exteriorImages);
+        break;
+      case 1:
+        setActiveImages(interiorImages);
+        break;
+      case 2:
+        setActiveImages(mechanicalImages);
+        break;
+      case 3:
+        setActiveImages(documentImages);
+        break;
+      default:
+        setActiveImages([]);
+    }
+  }, [activeTab, exteriorImages, interiorImages, mechanicalImages, documentImages]);
+
+  const getExteriorImages = () => {
     if (!blok.exteriorImages || blok.exteriorImages.length === 0) {
       fetchImagesFromGCP(blok.tag, "exterior");
     } else {
       setActiveImages(blok.exteriorImages);
     }
-  }
+  };
 
-  function getInteriorImages() {
+  const getInteriorImages = () => {
     if (!blok.interiorImages || blok.interiorImages.length === 0) {
       fetchImagesFromGCP(blok.tag, "interior");
     } else {
       setActiveImages(blok.interiorImages);
     }
-  }
+  };
 
-  function getMechanicalImages() {
+  const getMechanicalImages = () => {
     if (!blok.mechanicalImages || blok.mechanicalImages.length === 0) {
       fetchImagesFromGCP(blok.tag, "mechanical");
     } else {
       setActiveImages(blok.mechanicalImages);
     }
-  }
+  };
 
-  function getdocumentImages() {
+  const getDocumentImages = () => {
     if (!blok.documentImages || blok.documentImages.length === 0) {
       fetchImagesFromGCP(blok.tag, "document");
     } else {
       setActiveImages(blok.documentImages);
     }
-  }
+  };
 
   const fetchImagesFromGCP = async (tag, category) => {
     try {
@@ -166,31 +191,6 @@ export default function Car({ blok, url }) {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    switch (activeTab) {
-      case 0:
-        setActiveImages(exteriorImages);
-        break;
-      case 1:
-        setActiveImages(interiorImages);
-        break;
-      case 2:
-        setActiveImages(mechanicalImages);
-        break;
-      case 3:
-        setActiveImages(documentImages);
-        break;
-      default:
-        setActiveImages([]);
-    }
-  }, [
-    activeTab,
-    exteriorImages,
-    interiorImages,
-    mechanicalImages,
-    documentImages,
-  ]);
 
   useEffect(() => {
     getExteriorImages();
@@ -246,13 +246,17 @@ export default function Car({ blok, url }) {
       : "| SOLD"
   } | Stock #${blok?.vin?.slice(-4)}`;
 
-  const mainImageUrl = exteriorImages && exteriorImages.length > 0 
-  ? exteriorImages[0].filename 
-  : "/images/winding-road-16-10.png";
- console.log(mainImageUrl,"main")
   const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString(
     "en-CA"
   )} ${blok.miles} | Winding Road Motorcars`;
+
+  if (isLoading) {
+    return (
+      <div className={CSS.loader}>
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <>
@@ -303,7 +307,7 @@ export default function Car({ blok, url }) {
             className={activeTab === 3 ? CSS.active : ""}
             onClick={() => {
               setActiveTab(3);
-              getdocumentImages();
+              getDocumentImages();
             }}
           >
             Documents
@@ -317,10 +321,8 @@ export default function Car({ blok, url }) {
               style={{
                 fontSize: "20px",
                 color: "red",
-
                 padding: "10px 20px",
                 borderRadius: "5px",
-
                 textAlign: "center",
                 width: "fit-content",
                 animation: "spin 1s linear infinite",
@@ -411,9 +413,7 @@ export default function Car({ blok, url }) {
                   <>
                     <br />
                     USD $
-                    {Math.round(blok.price * cadToUsdRate).toLocaleString(
-                      "en-US"
-                    )}
+                    {Math.round(blok.price * cadToUsdRate).toLocaleString("en-US")}
                   </>
                 )}
                 {/* BTC Price */}
@@ -429,13 +429,9 @@ export default function Car({ blok, url }) {
                     <br />${Number(blok.monthlyPrice).toLocaleString("en-CA")}
                     /mo CAD
                     <br />$
-                    {Number(
-                      (blok.monthlyPrice * cadToUsdRate).toFixed(2)
-                    ).toLocaleString("en-US")}
+                    {Number((blok.monthlyPrice * cadToUsdRate).toFixed(2)).toLocaleString("en-US")}
                     /mo USD
-                    <br />({calculateBtcPrice(
-                      blok.monthlyPrice * cadToUsdRate
-                    )}{" "}
+                    <br />({calculateBtcPrice(blok.monthlyPrice * cadToUsdRate)}{" "}
                     BTC/mo)
                   </span>
                 )}
@@ -522,49 +518,45 @@ export default function Car({ blok, url }) {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                {" "}
-                <g id="icon_calendar" clip-path="url(#clip0_3901_22767)">
-                  {" "}
+                <g id="icon_calendar" clipPath="url(#clip0_3901_22767)">
                   <path
                     id="Vector"
                     d="M11.0833 2.33325H2.91667C2.27233 2.33325 1.75 2.85559 1.75 3.49992V11.6666C1.75 12.3109 2.27233 12.8333 2.91667 12.8333H11.0833C11.7277 12.8333 12.25 12.3109 12.25 11.6666V3.49992C12.25 2.85559 11.7277 2.33325 11.0833 2.33325Z"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
+                    strokeLinejoin="round"
+                  />
                   <path
                     id="Vector_2"
                     d="M1.75 5.83325H12.25"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
+                    strokeLinejoin="round"
+                  />
                   <path
                     id="Vector_3"
                     d="M9.3335 1.16675V3.50008"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
+                    strokeLinejoin="round"
+                  />
                   <path
                     id="Vector_4"
                     d="M4.6665 1.16675V3.50008"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
-                </g>{" "}
+                    strokeLinejoin="round"
+                  />
+                </g>
                 <defs>
-                  {" "}
                   <clipPath id="clip0_3901_22767">
-                    {" "}
-                    <rect width="14" height="14" fill="white" />{" "}
-                  </clipPath>{" "}
-                </defs>{" "}
+                    <rect width="14" height="14" fill="white" />
+                  </clipPath>
+                </defs>
               </svg>
             </PopUp>
           </p>
@@ -587,48 +579,40 @@ export default function Car({ blok, url }) {
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                {" "}
-                <g id="icon_download" clip-path="url(#clip0_3893_22749)">
-                  {" "}
+                <g id="icon_download" clipPath="url(#clip0_3893_22749)">
                   <path
                     id="Vector"
                     d="M12.25 8.75V11.0833C12.25 11.3928 12.1271 11.6895 11.9083 11.9083C11.6895 12.1271 11.3928 12.25 11.0833 12.25H2.91667C2.60725 12.25 2.3105 12.1271 2.09171 11.9083C1.87292 11.6895 1.75 11.3928 1.75 11.0833V8.75"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
+                    strokeLinejoin="round"
+                  />
                   <path
                     id="Vector_2"
                     d="M4.08325 5.83325L6.99992 8.74992L9.91659 5.83325"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
+                    strokeLinejoin="round"
+                  />
                   <path
                     id="Vector_3"
                     d="M7 8.75V1.75"
                     stroke="black"
                     strokeWidth="2"
                     strokeLinecap="round"
-                    stroke-linejoin="round"
-                  />{" "}
-                </g>{" "}
+                    strokeLinejoin="round"
+                  />
+                </g>
                 <defs>
-                  {" "}
                   <clipPath id="clip0_3893_22749">
-                    {" "}
-                    <rect width="14" height="14" fill="white" />{" "}
-                  </clipPath>{" "}
-                </defs>{" "}
+                    <rect width="14" height="14" fill="white" />
+                  </clipPath>
+                </defs>
               </svg>
             </PopUp>
-            <PopUp
-              className={CSS.bold}
-              price={blok?.price}
-              is="Payment Calculator"
-            >
+            <PopUp className={CSS.bold} price={blok?.price} is="Payment Calculator">
               <span>Finance options</span>
             </PopUp>
           </div>
@@ -673,7 +657,7 @@ export default function Car({ blok, url }) {
               rel="noreferrer noopener"
             >
               <img
-                alt="Share on Twitter"
+                alt="Share on WhatsApp"
                 src="/icons/whatsapp-share.svg"
                 width="36"
                 height="36"
@@ -687,7 +671,7 @@ export default function Car({ blok, url }) {
               rel="noreferrer noopener"
             >
               <img
-                alt="Share on Twitter"
+                alt="Share via Email"
                 src="/icons/email-share.svg"
                 width="36"
                 height="36"
