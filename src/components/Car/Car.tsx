@@ -5,255 +5,272 @@ import axios from "axios";
 import RichText from "utils/RichTextRenderer";
 import Image from "utils/Image";
 import PopUp from "components/PopUp/PopUp";
-import Head from 'next/head';
+import Head from "next/head";
 // Styles
 import CSS from "./Car.module.scss";
 
-
 export default function Car({ blok, url }) {
-    const [activeImages, setActiveImages] = useState([]);
-    const [exteriorImages, setExteriorImages] = useState(blok.exteriorImages || []);
-    const [interiorImages, setInteriorImages] = useState(blok.interiorImages || []);
-    const [mechanicalImages, setMechanicalImages] = useState(blok.mechanicalImages || []);
-    const [documentImages, setDocumentImages] = useState(blok.documentImages || []);
-    const [activeTab, setActiveTab] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [btcToUsdRate, setBtcToUsdRate] = useState(null);
-    const [cadToUsdRate, setCadToUsdRate] = useState(0.75);
-  
-    const carouselOptions = {
-      align: "start",
-      containScroll: "trimSnaps",
-      loop: true,
-      skipSnaps: false,
-      dragFree: false
-    };
-    //@ts-ignore
-    const [viewportRef, embla] = useEmblaCarousel(carouselOptions);
-    //@ts-ignore
-    const [viewportRef2, embla2] = useEmblaCarousel(carouselOptions);
-  
-    useEffect(() => {
-      setSelectedIndex(0);
-    }, [activeTab]);
-  
-    useEffect(() => {
-        const initCarousels = () => {
-          if (embla && embla2 && activeImages.length > 0) {
-            setTimeout(() => {
-              try {
-                embla.reInit();
-                embla2.reInit();
-                embla.scrollTo(0);
-                embla2.scrollTo(0);
-              } catch (error) {
-                console.error("Carousel initialization error:", error);
-              }
-            }, 100);
-          }
-        };
-    
-        initCarousels();
-      }, [activeImages, embla, embla2]);
-  
-    const onSelect = useCallback(() => {
-      if (!embla) return;
-      const index = embla.selectedScrollSnap();
-      setSelectedIndex(index);
-      if (embla2) {
-        embla2.scrollTo(index);
-      }
-    }, [embla, embla2]);
+  const [activeImages, setActiveImages] = useState([]);
+  const [exteriorImages, setExteriorImages] = useState(
+    blok.exteriorImages || []
+  );
+  const [interiorImages, setInteriorImages] = useState(
+    blok.interiorImages || []
+  );
+  const [mechanicalImages, setMechanicalImages] = useState(
+    blok.mechanicalImages || []
+  );
+  const [documentImages, setDocumentImages] = useState(
+    blok.documentImages || []
+  );
+  const [activeTab, setActiveTab] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [btcToUsdRate, setBtcToUsdRate] = useState(null);
+  const [cadToUsdRate, setCadToUsdRate] = useState(0.75);
+
+  const carouselOptions = {
+    align: "start",
+    containScroll: "trimSnaps",
+    loop: true,
+    skipSnaps: false,
+    dragFree: false,
+  };
   //@ts-ignore
-    useEffect(() => {
-      if (!embla) return;
-      embla.on("select", onSelect);
-      return () => embla.off("select", onSelect);
-    }, [embla, onSelect]);
-  
-    const scrollTo = useCallback(
-      (index) => {
-        if (embla && embla2) {
-          embla.scrollTo(index);
-          embla2.scrollTo(index);
-          setSelectedIndex(index);
-        }
-      },
-      [embla, embla2]
-    );
-  
-    function getExteriorImages() {
-      if (!blok.exteriorImages || blok.exteriorImages.length === 0) {
-        fetchImagesFromGCP(blok.tag, "exterior");
-      } else {
-        setActiveImages(blok.exteriorImages);
-      }
-    }
-  
-    function getInteriorImages() {
-      if (!blok.interiorImages || blok.interiorImages.length === 0) {
-        fetchImagesFromGCP(blok.tag, "interior");
-      } else {
-        setActiveImages(blok.interiorImages);
-      }
-    }
-  
-    function getMechanicalImages() {
-      if (!blok.mechanicalImages || blok.mechanicalImages.length === 0) {
-        fetchImagesFromGCP(blok.tag, "mechanical");
-      } else {
-        setActiveImages(blok.mechanicalImages);
-      }
-    }
-  
-    function getdocumentImages() {
-      if (!blok.documentImages || blok.documentImages.length === 0) {
-        fetchImagesFromGCP(blok.tag, "document");
-      } else {
-        setActiveImages(blok.documentImages);
-      }
-    }
-  
-    const fetchImagesFromGCP = async (tag, category) => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(
-          `https://winding-backend.vercel.app/api/getImages/${tag}/${category}`
-        );
-  
-        const { files } = response.data;
-        const formattedImages = files.map((file, index) => ({
-          id: index + 1,
-          alt: "",
-          name: "",
-          focus: "",
-          title: "",
-          source: "",
-          filename: file,
-          copyright: "",
-          fieldtype: "asset",
-          meta_data: {},
-          is_private: false,
-        }));
-  
-        switch (category) {
-          case "exterior":
-            setExteriorImages(formattedImages);
-            break;
-          case "interior":
-            setInteriorImages(formattedImages);
-            break;
-          case "mechanical":
-            setMechanicalImages(formattedImages);
-            break;
-          case "document":
-            setDocumentImages(formattedImages);
-            break;
-          default:
-            break;
-        }
-      } catch (error) {
-        console.error("Error fetching images from GCP:", error);
-      } finally {
-        setIsLoading(false);
+  const [viewportRef, embla] = useEmblaCarousel(carouselOptions);
+  //@ts-ignore
+  const [viewportRef2, embla2] = useEmblaCarousel(carouselOptions);
+
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [activeTab]);
+
+  useEffect(() => {
+    const initCarousels = () => {
+      if (embla && embla2 && activeImages.length > 0) {
+        setTimeout(() => {
+          try {
+            embla.reInit();
+            embla2.reInit();
+            embla.scrollTo(0);
+            embla2.scrollTo(0);
+          } catch (error) {
+            console.error("Carousel initialization error:", error);
+          }
+        }, 100);
       }
     };
-  
-    useEffect(() => {
-      switch (activeTab) {
-        case 0:
-          setActiveImages(exteriorImages);
+
+    initCarousels();
+  }, [activeImages, embla, embla2]);
+
+  const onSelect = useCallback(() => {
+    if (!embla) return;
+    const index = embla.selectedScrollSnap();
+    setSelectedIndex(index);
+    if (embla2) {
+      embla2.scrollTo(index);
+    }
+  }, [embla, embla2]);
+  //@ts-ignore
+  useEffect(() => {
+    if (!embla) return;
+    embla.on("select", onSelect);
+    return () => embla.off("select", onSelect);
+  }, [embla, onSelect]);
+
+  const scrollTo = useCallback(
+    (index) => {
+      if (embla && embla2) {
+        embla.scrollTo(index);
+        embla2.scrollTo(index);
+        setSelectedIndex(index);
+      }
+    },
+    [embla, embla2]
+  );
+
+  function getExteriorImages() {
+    if (!blok.exteriorImages || blok.exteriorImages.length === 0) {
+      fetchImagesFromGCP(blok.tag, "exterior");
+    } else {
+      setActiveImages(blok.exteriorImages);
+    }
+  }
+
+  function getInteriorImages() {
+    if (!blok.interiorImages || blok.interiorImages.length === 0) {
+      fetchImagesFromGCP(blok.tag, "interior");
+    } else {
+      setActiveImages(blok.interiorImages);
+    }
+  }
+
+  function getMechanicalImages() {
+    if (!blok.mechanicalImages || blok.mechanicalImages.length === 0) {
+      fetchImagesFromGCP(blok.tag, "mechanical");
+    } else {
+      setActiveImages(blok.mechanicalImages);
+    }
+  }
+
+  function getdocumentImages() {
+    if (!blok.documentImages || blok.documentImages.length === 0) {
+      fetchImagesFromGCP(blok.tag, "document");
+    } else {
+      setActiveImages(blok.documentImages);
+    }
+  }
+
+  const fetchImagesFromGCP = async (tag, category) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `https://winding-backend.vercel.app/api/getImages/${tag}/${category}`
+      );
+
+      const { files } = response.data;
+      const formattedImages = files.map((file, index) => ({
+        id: index + 1,
+        alt: "",
+        name: "",
+        focus: "",
+        title: "",
+        source: "",
+        filename: file,
+        copyright: "",
+        fieldtype: "asset",
+        meta_data: {},
+        is_private: false,
+      }));
+
+      switch (category) {
+        case "exterior":
+          setExteriorImages(formattedImages);
           break;
-        case 1:
-          setActiveImages(interiorImages);
+        case "interior":
+          setInteriorImages(formattedImages);
           break;
-        case 2:
-          setActiveImages(mechanicalImages);
+        case "mechanical":
+          setMechanicalImages(formattedImages);
           break;
-        case 3:
-          setActiveImages(documentImages);
+        case "document":
+          setDocumentImages(formattedImages);
           break;
         default:
-          setActiveImages([]);
+          break;
       }
-    }, [activeTab, exteriorImages, interiorImages, mechanicalImages, documentImages]);
-  
-    useEffect(() => {
-      getExteriorImages();
-    }, []);
-  
-    useEffect(() => {
-      const fetchBtcToUsdRate = async () => {
-        try {
-          const response = await axios.get(
-            "https://api.coindesk.com/v1/bpi/currentprice/USD.json"
-          );
-          const rate = response.data?.bpi?.USD?.rate_float;
-          if (rate) {
-            setBtcToUsdRate(rate);
-          } else {
-            console.error("Failed to fetch valid BTC rate");
-          }
-        } catch (error) {
-          console.error("Error fetching BTC price:", error);
+    } catch (error) {
+      console.error("Error fetching images from GCP:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    switch (activeTab) {
+      case 0:
+        setActiveImages(exteriorImages);
+        break;
+      case 1:
+        setActiveImages(interiorImages);
+        break;
+      case 2:
+        setActiveImages(mechanicalImages);
+        break;
+      case 3:
+        setActiveImages(documentImages);
+        break;
+      default:
+        setActiveImages([]);
+    }
+  }, [
+    activeTab,
+    exteriorImages,
+    interiorImages,
+    mechanicalImages,
+    documentImages,
+  ]);
+
+  useEffect(() => {
+    getExteriorImages();
+  }, []);
+
+  useEffect(() => {
+    const fetchBtcToUsdRate = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.coindesk.com/v1/bpi/currentprice/USD.json"
+        );
+        const rate = response.data?.bpi?.USD?.rate_float;
+        if (rate) {
+          setBtcToUsdRate(rate);
+        } else {
+          console.error("Failed to fetch valid BTC rate");
         }
-      };
-  
-      const fetchCadToUsdRate = async () => {
-        try {
-          const response = await axios.get(
-            "https://api.exchangerate-api.com/v4/latest/CAD"
-          );
-          const rate = response.data?.rates?.USD;
-          if (rate) {
-            setCadToUsdRate(rate);
-          } else {
-            console.error("Failed to fetch valid CAD to USD rate");
-          }
-        } catch (error) {
-          console.error("Error fetching CAD to USD rate:", error);
-        }
-      };
-  
-      fetchBtcToUsdRate();
-      fetchCadToUsdRate();
-    }, []);
-  
-    const calculateBtcPrice = (usdPrice) => {
-      if (!btcToUsdRate || !usdPrice) return "...";
-      return (usdPrice / btcToUsdRate).toFixed(6);
+      } catch (error) {
+        console.error("Error fetching BTC price:", error);
+      }
     };
 
-    const metaDescription = `${blok.year} ${blok.make} ${blok.model} ${blok.miles ? '| ' + blok.miles + ' miles' : ''} ${blok.available ? '| $' + Number(blok.price).toLocaleString('en-CA') : '| SOLD'} | Stock #${blok?.vin?.slice(-4)}`;
-  
-    
-    const mainImageUrl = exteriorImages && exteriorImages.length > 0 
-      && exteriorImages[0].filename 
-     
-    
-    
-    
-    const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString('en-CA')} ${blok.miles} | Winding Road Motorcars`;
- 
-  
+    const fetchCadToUsdRate = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.exchangerate-api.com/v4/latest/CAD"
+        );
+        const rate = response.data?.rates?.USD;
+        if (rate) {
+          setCadToUsdRate(rate);
+        } else {
+          console.error("Failed to fetch valid CAD to USD rate");
+        }
+      } catch (error) {
+        console.error("Error fetching CAD to USD rate:", error);
+      }
+    };
+
+    fetchBtcToUsdRate();
+    fetchCadToUsdRate();
+  }, []);
+
+  const calculateBtcPrice = (usdPrice) => {
+    if (!btcToUsdRate || !usdPrice) return "...";
+    return (usdPrice / btcToUsdRate).toFixed(6);
+  };
+
+  const metaDescription = `${blok.year} ${blok.make} ${blok.model} ${
+    blok.miles ? "| " + blok.miles + " miles" : ""
+  } ${
+    blok.available
+      ? "| $" + Number(blok.price).toLocaleString("en-CA")
+      : "| SOLD"
+  } | Stock #${blok?.vin?.slice(-4)}`;
+
+  const imagePath = exteriorImages && exteriorImages.length > 0 
+  ? exteriorImages[0].filename.replace('https://storage.googleapis.com/testing_developer_02/', '')
+  : 'default-image.jpg';
+
+const proxyImageUrl = `https://windingroad.ca/api/image/${imagePath}`;
+
+  const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString(
+    "en-CA"
+  )} ${blok.miles} | Winding Road Motorcars`;
+
   return (
     <>
-     <Head>
-       
+      <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={mainImageUrl} />
+        <meta property="og:image" content={proxyImageUrl} />
         <meta property="og:url" content={`https://windingroad.ca/${url}/`} />
         <meta property="og:type" content="website" />
-        
-       
+
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={mainImageUrl} />
+        <meta name="twitter:image" content={proxyImageUrl} />
       </Head>
       <div className={`wrapper ${CSS.firstPaint}`}>
         <div className={CSS.tabs}>
