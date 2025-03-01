@@ -246,11 +246,9 @@ export default function Car({ blok, url }) {
       : "| SOLD"
   } | Stock #${blok?.vin?.slice(-4)}`;
 
-  const imagePath = exteriorImages && exteriorImages.length > 0 
-  ? exteriorImages[0].filename.replace('https://storage.googleapis.com/testing_developer_02/', '')
-  : 'default-image.jpg';
-
-const proxyImageUrl = `https://windingroad.ca/api/image/${imagePath}`;
+  const mainImageUrl = exteriorImages && exteriorImages.length > 0 
+  ? exteriorImages[0].filename 
+  : "/images/winding-road-16-10.png";
 
   const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString(
     "en-CA"
@@ -263,14 +261,14 @@ const proxyImageUrl = `https://windingroad.ca/api/image/${imagePath}`;
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={proxyImageUrl} />
+        <meta property="og:image" content={mainImageUrl} />
         <meta property="og:url" content={`https://windingroad.ca/${url}/`} />
         <meta property="og:type" content="website" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={proxyImageUrl} />
+        <meta name="twitter:image" content={mainImageUrl} />
       </Head>
       <div className={`wrapper ${CSS.firstPaint}`}>
         <div className={CSS.tabs}>
@@ -342,7 +340,7 @@ const proxyImageUrl = `https://windingroad.ca/api/image/${imagePath}`;
                     ))}
                   {(activeImages?.length === 0 || !activeImages) && (
                     <img
-                      // src="/images/winding-road-16-10.png"
+                      src="/images/winding-road-16-10.png"
                       loading="lazy"
                       alt=""
                       width="840"
