@@ -83,10 +83,10 @@ export default function Car({ blok, url }) {
     [embla, embla2]
   );
 
-  const fetchMainImageUrl = () => {
-    const url = exteriorImages && exteriorImages.length > 0
-      ? exteriorImages[0].filename
-      : "/images/winding-road-16-10.png";
+  const fetchMainImageUrl = async () => {
+    const url = await exteriorImages && exteriorImages.length > 0
+      && exteriorImages[0].filename
+      // : "/images/winding-road-16-10.png";
 
     setMainImageUrl(url);
     setIsLoading(false); // Set loading to false when image URL is fetched
