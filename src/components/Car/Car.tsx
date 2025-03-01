@@ -29,10 +29,20 @@ export default function Car({ blok, url }) {
     skipSnaps: false,
     dragFree: false,
   };
-//@ts-ignore
+  //@ts-ignore
   const [viewportRef, embla] = useEmblaCarousel(carouselOptions);
   //@ts-ignore
   const [viewportRef2, embla2] = useEmblaCarousel(carouselOptions);
+
+  useEffect(() => {
+    if (exteriorImages.length > 0) {
+      setMainImageUrl(exteriorImages[0].filename);
+      setIsLoading(false);
+    } else {
+      setMainImageUrl('/images/winding-road-16-10.png'); // Default image
+      setIsLoading(false);
+    }
+  }, [exteriorImages]);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -65,7 +75,8 @@ export default function Car({ blok, url }) {
       embla2.scrollTo(index);
     }
   }, [embla, embla2]);
-//@ts-ignore
+
+  //@ts-ignore
   useEffect(() => {
     if (!embla) return;
     embla.on("select", onSelect);
@@ -82,70 +93,6 @@ export default function Car({ blok, url }) {
     },
     [embla, embla2]
   );
-
-  const fetchMainImageUrl = async () => {
-    const url = await exteriorImages && exteriorImages.length > 0
-      && exteriorImages[0].filename
-      // : "/images/winding-road-16-10.png";
-
-    setMainImageUrl(url);
-    setIsLoading(false); // Set loading to false when image URL is fetched
-  };
-
-  useEffect(() => {
-    fetchMainImageUrl(); // Populate main image URL immediately if available
-  }, [exteriorImages]);
-
-  useEffect(() => {
-    switch (activeTab) {
-      case 0:
-        setActiveImages(exteriorImages);
-        break;
-      case 1:
-        setActiveImages(interiorImages);
-        break;
-      case 2:
-        setActiveImages(mechanicalImages);
-        break;
-      case 3:
-        setActiveImages(documentImages);
-        break;
-      default:
-        setActiveImages([]);
-    }
-  }, [activeTab, exteriorImages, interiorImages, mechanicalImages, documentImages]);
-
-  const getExteriorImages = () => {
-    if (!blok.exteriorImages || blok.exteriorImages.length === 0) {
-      fetchImagesFromGCP(blok.tag, "exterior");
-    } else {
-      setActiveImages(blok.exteriorImages);
-    }
-  };
-
-  const getInteriorImages = () => {
-    if (!blok.interiorImages || blok.interiorImages.length === 0) {
-      fetchImagesFromGCP(blok.tag, "interior");
-    } else {
-      setActiveImages(blok.interiorImages);
-    }
-  };
-
-  const getMechanicalImages = () => {
-    if (!blok.mechanicalImages || blok.mechanicalImages.length === 0) {
-      fetchImagesFromGCP(blok.tag, "mechanical");
-    } else {
-      setActiveImages(blok.mechanicalImages);
-    }
-  };
-
-  const getDocumentImages = () => {
-    if (!blok.documentImages || blok.documentImages.length === 0) {
-      fetchImagesFromGCP(blok.tag, "document");
-    } else {
-      setActiveImages(blok.documentImages);
-    }
-  };
 
   const fetchImagesFromGCP = async (tag, category) => {
     try {
@@ -193,8 +140,8 @@ export default function Car({ blok, url }) {
   };
 
   useEffect(() => {
-    getExteriorImages();
-  }, []);
+    fetchImagesFromGCP(blok.tag, "exterior");
+  }, [blok.tag]);
 
   useEffect(() => {
     const fetchBtcToUsdRate = async () => {
@@ -246,9 +193,7 @@ export default function Car({ blok, url }) {
       : "| SOLD"
   } | Stock #${blok?.vin?.slice(-4)}`;
 
-  const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString(
-    "en-CA"
-  )} ${blok.miles} | Winding Road Motorcars`;
+  const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString("en-CA")} ${blok.miles} | Winding Road Motorcars`;
 
   if (isLoading) {
     return (
@@ -265,22 +210,22 @@ export default function Car({ blok, url }) {
         <meta name="description" content={metaDescription} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={mainImageUrl} />
+        <meta property="og:image" content={mainImageUrl} /> {/* Explicit OG Image URL */}
         <meta property="og:url" content={`https://windingroad.ca/${url}/`} />
         <meta property="og:type" content="website" />
-
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={pageTitle} />
         <meta name="twitter:description" content={metaDescription} />
-        <meta name="twitter:image" content={mainImageUrl} />
+        <meta name="twitter:image" content={mainImageUrl} /> {/* Explicit Twitter Image URL */}
       </Head>
+
       <div className={`wrapper ${CSS.firstPaint}`}>
         <div className={CSS.tabs}>
           <button
             className={activeTab === 0 ? CSS.active : ""}
             onClick={() => {
               setActiveTab(0);
-              getExteriorImages();
+              fetchImagesFromGCP(blok.tag, "exterior");
             }}
           >
             Exterior
@@ -289,7 +234,7 @@ export default function Car({ blok, url }) {
             className={activeTab === 1 ? CSS.active : ""}
             onClick={() => {
               setActiveTab(1);
-              getInteriorImages();
+              fetchImagesFromGCP(blok.tag, "interior");
             }}
           >
             Interior
@@ -298,7 +243,7 @@ export default function Car({ blok, url }) {
             className={activeTab === 2 ? CSS.active : ""}
             onClick={() => {
               setActiveTab(2);
-              getMechanicalImages();
+              fetchImagesFromGCP(blok.tag, "mechanical");
             }}
           >
             Mechanical
@@ -307,7 +252,7 @@ export default function Car({ blok, url }) {
             className={activeTab === 3 ? CSS.active : ""}
             onClick={() => {
               setActiveTab(3);
-              getDocumentImages();
+              fetchImagesFromGCP(blok.tag, "document");
             }}
           >
             Documents
@@ -316,18 +261,7 @@ export default function Car({ blok, url }) {
 
         <div className={CSS.images}>
           {isLoading ? (
-            <div
-              className={CSS.loader}
-              style={{
-                fontSize: "20px",
-                color: "red",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                textAlign: "center",
-                width: "fit-content",
-                animation: "spin 1s linear infinite",
-              }}
-            >
+            <div className={CSS.loader}>
               Loading...
             </div>
           ) : (
