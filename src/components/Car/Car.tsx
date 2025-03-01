@@ -246,8 +246,9 @@ export default function Car({ blok, url }) {
       : "| SOLD"
   } | Stock #${blok?.vin?.slice(-4)}`;
 
-  const mainImageUrl =
-    exteriorImages && exteriorImages.length > 0 && exteriorImages[0].filename;
+  const mainImageUrl = exteriorImages && exteriorImages.length > 0 
+  ? exteriorImages[0].filename 
+  : "/images/winding-road-16-10.png";
  console.log(mainImageUrl,"main")
   const pageTitle = `${blok.title} | $${Number(blok.price).toLocaleString(
     "en-CA"
